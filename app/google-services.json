@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "131838687922",
+    "project_id": "st-ar-photozone",
+    "storage_bucket": "st-ar-photozone.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:131838687922:android:10d677e712f0a1aabf27ab",
+        "android_client_info": {
+          "package_name": "com.example.stphotozone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "131838687922-fir2drvkvkohg7jcv2deb83er8mbkk18.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stphotozone",
+            "certificate_hash": "24b41901f7e6337e7a4aedd55a8c6331be6eb486"
+          }
+        },
+        {
+          "client_id": "131838687922-d83i9gvg9bb9pba6mp44vj8on4qs8hso.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAUn7mQ0o3JPrOErBtEISWLJsmfWYY4fMM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "131838687922-d83i9gvg9bb9pba6mp44vj8on4qs8hso.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
