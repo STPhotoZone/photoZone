@@ -18,6 +18,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ChallengeActivity" android:label="Challenge 액티비티"/>
     </application>
-
+    <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

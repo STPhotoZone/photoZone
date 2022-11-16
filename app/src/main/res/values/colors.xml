@@ -7,5 +7,12 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="cream">#f3f0e7</color>
+    <color name="gray">#d9d9d9</color>
+    <color name="darkGray">#7f7f7f</color>
+    <color name="missionText">#bfbf99</color>
+    <color name="yellow">#FFEB3B</color>
+    <color name="ahyu">#63cf0f</color>
+    <color name="darkRed">#a4343a</color>
     <color name="main_red">#FFFE555E</color>
 </resources>
