@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.STPhotozone">
         <activity
-            android:name=".CameraActivity"
+            android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ChallengeActivity" android:label="Challenge 액티비티"/>
+        <activity android:name=".ChallengeActivity" android:label="Challenge Activity"/>
+        <activity android:name=".LoginActivity" android:label="Login Activity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 </manifest>

@@ -42,11 +42,11 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.44" />
+                app:layout_constraintVertical_bias="0.44"/>
 
             <LinearLayout
-                android:layout_width="213dp"
-                android:layout_height="96dp"
+                android:layout_width="180dp"
+                android:layout_height="80dp"
                 android:orientation="vertical"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -55,19 +55,14 @@
                 app:layout_constraintTop_toTopOf="parent">
 
                 <TextView
+                    android:id="@+id/txtNickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
                     android:background="@android:color/transparent"
                     android:text="닉네임"
-                    android:textSize="20dp" />
+                    android:textSize="20dp"
+                    android:layout_weight="1"/>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:background="@android:color/transparent"
-                    android:text="자기소개" />
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -77,9 +72,11 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/check" />
+                        android:src="@drawable/check"
+                        android:layout_gravity="center"/>
 
                     <TextView
+                        android:id="@+id/txtCount"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:background="@android:color/transparent"
