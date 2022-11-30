@@ -14,3 +14,9 @@ dependencyResolutionManagement {
 }
 rootProject.name = "STPhotozone"
 include ':app'
+include ':sceneform'
+project(':sceneform').projectDir = new File(rootDir, 'sceneformsrc/sceneform/')
+
+// this will add sceneformux folder into your project
+include ':sceneformux'
+project(':sceneformux').projectDir = new File(rootDir, 'sceneformux/ux/')

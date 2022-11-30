@@ -31,6 +31,7 @@ android {
 dependencies {
 
     implementation 'androidx.appcompat:appcompat:1.5.1'
+    implementation "androidx.fragment:fragment:1.5.4"
     implementation 'com.google.android.material:material:1.7.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'com.google.firebase:firebase-analytics'
@@ -44,14 +45,10 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.0'
 
     /*ARCore 관련*/
-    // Provides ARCore Session and related resources.
-    implementation 'com.google.ar:core:1.15.0'
+    //api project(':sceneformux')
+    //implementation 'com.google.ar:core:1.32.0'
 
-    // Provides ArFragment, and other UX resources.
-    implementation 'com.google.ar.sceneform.ux:sceneform-ux:1.15.0'
-
-    // Alternatively, use ArSceneView without the UX dependency.
-    implementation 'com.google.ar.sceneform:core:1.15.0'
+    implementation "com.gorisse.thomas.sceneform:sceneform:1.21.0"
 }
 
 apply plugin: 'com.google.gms.google-services'

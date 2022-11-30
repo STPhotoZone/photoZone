@@ -9,8 +9,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.STPhotozone">
+
+        <!-- Indicates that this app requires Google Play Services for AR ("AR Required") and causes
+        the Google Play Store to download and intall Google Play Services for AR along with the app.
+        For an "AR Optional" app, specify "optional" instead of "required". -->
+        <meta-data
+            android:name="com.google.ar.core"
+            android:value="required" />
+
         <activity
-            android:name=".MainActivity"
+            android:name=".CameraActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -20,6 +28,7 @@
         </activity>
         <activity android:name=".ChallengeActivity" android:label="Challenge Activity"/>
         <activity android:name=".LoginActivity" android:label="Login Activity"/>
+        <activity android:name=".MainActivity" android:label="Main Activity"/>
     </application>
     <uses-permission android:name="android.permission.INTERNET" />
 
