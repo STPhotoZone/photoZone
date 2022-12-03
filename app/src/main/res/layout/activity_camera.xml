@@ -9,7 +9,6 @@
     <!--This is the fragment that will be used as AR camera-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/arArea"
-        android:name="com.google.ar.sceneform.ux.ArFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
