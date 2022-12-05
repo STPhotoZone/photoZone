@@ -22,14 +22,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:paddingTop="10dp"
-        android:paddingRight="10dp"
-        android:paddingLeft="10dp"
+        android:paddingRight="15dp"
+        android:paddingLeft="15dp"
         android:paddingBottom="5dp">
 
         <ImageButton
             android:id="@+id/setting"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/settings"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
@@ -58,8 +59,9 @@
 
         <ImageButton
             android:id="@+id/change"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginTop="3dp"
             android:background="@drawable/change"
             tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </LinearLayout>
@@ -73,7 +75,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@color/white"
-        android:paddingTop="20dp">
+        android:paddingTop="25dp"
+        android:paddingBottom="10dp">
 
         <LinearLayout
             android:id="@+id/anotherActivity"
@@ -91,8 +94,8 @@
 
                 <ImageButton
                     android:id="@+id/gallery"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/gallery"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 <TextView
@@ -117,8 +120,8 @@
 
                 <ImageButton
                     android:id="@+id/map"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/map"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 <TextView
@@ -137,8 +140,9 @@
 
             <ImageButton
                 android:id="@+id/take_photo"
-                android:layout_width="80dp"
-                android:layout_height="80dp"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:paddingBottom="20dp"
                 android:background="@drawable/circle_button"
                 tools:ignore="SpeakableTextPresentCheck" />
 
@@ -152,8 +156,8 @@
 
                 <ImageButton
                     android:id="@+id/challenge"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/award"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 <TextView
@@ -179,8 +183,8 @@
 
                 <ImageButton
                     android:id="@+id/more"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="25dp"
+                    android:layout_height="25dp"
                     android:background="@drawable/more"
                     tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
                 <TextView
@@ -204,17 +208,17 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:gravity="center"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
                 android:id="@+id/picture"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="20dp"
+                android:layout_marginRight="30dp"
                 android:fontFamily="@font/regular"
                 android:text="사진"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="@color/black" />
 
             <TextView
@@ -223,7 +227,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/regular"
                 android:text="동영상"
-                android:textSize="20dp"
+                android:textSize="15dp"
                 android:textColor="@color/black" />
         </LinearLayout>
 
