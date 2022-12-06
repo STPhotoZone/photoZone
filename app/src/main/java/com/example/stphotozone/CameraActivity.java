@@ -107,13 +107,20 @@ public class CameraActivity extends AppCompatActivity implements
         }
 
         /* 버튼 클릭 처리 부분*/
-//        challenge.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
-//                startActivity(intent);
-//            }
-//        });
+        map.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+                startActivity(intent);
+            }
+        });
+        challenge.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
+                startActivity(intent);
+            }
+        });
 
     }
 

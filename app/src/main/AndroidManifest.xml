@@ -26,6 +26,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MapActivity" android:label="Map Activity"/>
         <activity android:name=".ChallengeActivity" android:label="Challenge Activity"/>
         <activity android:name=".LoginActivity" android:label="Login Activity"/>
         <activity android:name=".MainActivity" android:label="Main Activity"/>
