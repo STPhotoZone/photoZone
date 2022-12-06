@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,67 +7,67 @@
     android:orientation="vertical"
     tools:context=".ChallengeActivity">
 
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:background="@color/cream"
-            android:padding="20dp">
+            android:orientation="horizontal"
+            android:paddingLeft="10dp"
+            android:paddingBottom="20dp"
+            android:paddingRight="20dp">
 
             <ImageButton
                 android:id="@+id/imgBtnBack"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="4dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_weight="1"
+                android:layout_marginTop="10dp"
                 android:backgroundTint="@color/cream"
                 android:src="@drawable/chevron_left"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.0"
                 tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/imgProfile"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:layout_marginStart="36dp"
-                android:src="@drawable/tech"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.44"/>
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="30dp"
+                android:layout_weight="2"
+                android:src="@drawable/tech" />
 
             <LinearLayout
                 android:layout_width="180dp"
                 android:layout_height="80dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.619"
-                app:layout_constraintStart_toEndOf="@+id/imgProfile"
-                app:layout_constraintTop_toTopOf="parent">
+                android:layout_marginStart="30dp"
+                android:layout_marginTop="40dp"
+                android:layout_weight="3"
+                android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/txtNickname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@android:color/transparent"
+                    android:textColor="@color/main_naivy"
+                    android:fontFamily="@font/bold"
                     android:text="닉네임"
-                    android:textSize="20dp"
+                    android:textSize="25dp"
                     android:layout_weight="1"/>
 
 
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:layout_marginTop="5dp">
 
                     <ImageView
                         android:layout_width="wrap_content"
@@ -91,7 +91,7 @@
 
             </LinearLayout>
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
 
         <HorizontalScrollView
             android:id="@+id/scrollType"
@@ -169,14 +169,14 @@
             android:id="@+id/grid_mission"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"
-            android:horizontalSpacing="30dp"
+            android:layout_margin="10dp"
+            android:horizontalSpacing="10dp"
             android:numColumns="2"
             android:scrollbars="none"
 
-            android:verticalSpacing="30dp"
+            android:verticalSpacing="20dp"
 
             />
 
     </LinearLayout>
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -2,41 +2,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="170dp"
-    android:layout_height="220dp">
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop = "80dp"
+        android:paddingBottom = "80dp"
+        android:paddingLeft = "20dp"
+        android:paddingRight = "20dp"
+        android:gravity="center"
         android:background="@drawable/round_background">
 
         <TextView
             android:id="@+id/textMissionName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
             android:text="흑룡이"
             android:textColor="@color/black"
             android:textSize="17dp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/textMissionDescription"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/imgMission"
-            app:layout_constraintVertical_bias="0.468" />
+            android:layout_marginBottom="20dp"/>
 
         <TextView
             android:id="@+id/textMissionDescription"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="88dp"
             android:text="정문 앞에서 흑룡이를 찾아보세요!"
             android:textAlignment="center"
             android:textColor="@color/missionText"
             android:textSize="12dp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            />
 
         <ImageView
             android:id="@+id/imgMission"
@@ -46,6 +44,6 @@
             tools:layout_editor_absoluteY="-16dp" />
 
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </LinearLayout>
 
 </RelativeLayout>
