@@ -117,7 +117,7 @@ public class CameraActivity extends AppCompatActivity implements
         challenge.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
+                Intent intent = new Intent(getApplicationContext(), LoginActivity.class); // 먼저 로그인이 되어야 함
                 startActivity(intent);
             }
         });

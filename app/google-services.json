@@ -14,6 +14,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "131838687922-1spvr4brvrjmpp67vcpammpmjkg9n4eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.stphotozone",
+            "certificate_hash": "957380f963a1fe191fb110a191dfc84663a886d0"
+          }
+        },
+        {
           "client_id": "131838687922-uhljfpj9e7nb8me0f2gi516lvtpujs89.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
