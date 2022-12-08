@@ -2,6 +2,8 @@
     <string name="app_name">STPhotozone</string>
     <string name="BD_name">흑룡이</string>
     <string name="BD_description">정문 앞에서 흑룡이를 찾아보세요!</string>
+    <string name="Flying_Tech_name">플라잉 테크</string>
+    <string name="Flying_Tech_description">정문에서 테크가 날고 있어요!</string>
     <string name="Tech_name">테크</string>
     <string name="Tech_description">다산관 앞에서 테크와 찰칵!</string>
     <string name="Ahyu_name">아휴</string>

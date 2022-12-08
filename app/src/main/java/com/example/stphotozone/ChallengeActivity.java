@@ -24,10 +24,14 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.firestore.SetOptions;
 
+import java.util.HashMap;
 import java.util.Map;
 
 public class ChallengeActivity extends AppCompatActivity {
@@ -45,7 +49,6 @@ public class ChallengeActivity extends AppCompatActivity {
 
     TextView nickName;
     TextView missionCount;
-
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,7 +69,7 @@ public class ChallengeActivity extends AppCompatActivity {
         mission_grid = (GridView) findViewById(R.id.grid_mission);
         mission_gridAdt = new GridAdapter(this);
 
-        mission_gridAdt.setItem( getString(R.string.BD_name), getString(R.string.BD_description), Character.BlackDragon);
+        mission_gridAdt.setItem( getString(R.string.Flying_Tech_name), getString(R.string.Flying_Tech_description), Character.Tech);
         mission_gridAdt.setItem( getString(R.string.Tech_name), getString(R.string.Tech_description), Character.Tech);
         mission_gridAdt.setItem( getString(R.string.Ahyu_name), getString(R.string.Ahyu_description), Character.Ahyu);
 
@@ -95,20 +98,7 @@ public class ChallengeActivity extends AppCompatActivity {
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
                 switch (missionGroup.getCheckedRadioButtonId())
                 {
-                    case R.id.rdBDragon:
-                        System.out.println("BDragon");
-                        mission_gridAdt.clearVisible_item();
-                        for(int j=0; j <mission_gridAdt.getArrayCount(); j++)
-                        {
-                            GridItem temp = mission_gridAdt.getArrayItem(j);
 
-                            if(temp.character == Character.BlackDragon)
-                            {
-                                mission_gridAdt.setVisible_item(temp);
-                            }
-                        }
-                        mission_grid.setAdapter(mission_gridAdt);
-                        break;
                     case R.id.rdTech:
                         System.out.println("Tech");
                         mission_gridAdt.clearVisible_item();
@@ -131,6 +121,21 @@ public class ChallengeActivity extends AppCompatActivity {
                             GridItem temp = mission_gridAdt.getArrayItem(j);
 
                             if(temp.character == Character.Ahyu)
+                            {
+                                mission_gridAdt.setVisible_item(temp);
+                            }
+                        }
+                        mission_grid.setAdapter(mission_gridAdt);
+                        break;
+
+                    case R.id.rdBDragon:
+                        System.out.println("BDragon");
+                        mission_gridAdt.clearVisible_item();
+                        for(int j=0; j <mission_gridAdt.getArrayCount(); j++)
+                        {
+                            GridItem temp = mission_gridAdt.getArrayItem(j);
+
+                            if(temp.character == Character.BlackDragon)
                             {
                                 mission_gridAdt.setVisible_item(temp);
                             }
@@ -181,6 +186,34 @@ public class ChallengeActivity extends AppCompatActivity {
 
                             nickName.setText(name);
                             missionCount.setText(num);
+                        }
+                    }
+                });
+
+    }
+
+    public void addMissionCount() {
+
+        CollectionReference productRef = db.collection("users");
+        productRef
+                .whereEqualTo("email", firebaseAuth.getCurrentUser().getEmail())
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                Map<String, Object> data = document.getData();
+
+                                String num = data.get("mission_num").toString();
+
+                                int cnt = Integer.parseInt(num) + 1;
+
+                                Map<Object, String> mapIn = new HashMap<>();
+                                mapIn.put("mission_num", Integer.toString(cnt));
+                                productRef.document(document.getId()).set(mapIn, SetOptions.merge());
+                            }
+
                         }
                     }
                 });

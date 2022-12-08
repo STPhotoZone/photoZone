@@ -144,9 +144,10 @@ public class LoginActivity extends AppCompatActivity {
                 //구글 로그인 성공
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 System.out.println(task.getResult(ApiException.class));
+                Log.d("onActivityResult", "good");
                 firebaseAuthWithGoogle(account);
             } catch (ApiException e ) {
-
+                Log.d("onActivityResult", "bad");
                 System.out.println(e);
         }
 
@@ -197,9 +198,11 @@ public class LoginActivity extends AppCompatActivity {
             editNickname.setVisibility(View.VISIBLE);
             btnNickname.setVisibility(View.VISIBLE);
             buttonGoogle.setVisibility(View.INVISIBLE);
+            Log.d("user email : " , firebaseAuth.getCurrentUser().getEmail());
 
         } else
         {
+            Log.d("success" , "intent");
             Intent intent = new Intent(getApplicationContext(), ChallengeActivity.class);
             startActivity(intent);
             finish();
