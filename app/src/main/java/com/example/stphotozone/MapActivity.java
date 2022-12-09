@@ -3,8 +3,12 @@ package com.example.stphotozone;
 import static com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.LocationRequest;
+import android.os.Build;
 import android.os.Bundle;
+import android.telephony.CarrierConfigManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -15,12 +19,19 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +46,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     // 지도 관련
     GoogleMap gMap;
     MapFragment mapFragment;
+    double longitude;
+    double latitude;
+    MarkerOptions currentMarkerOptions;
+    Marker currentMarker;
 
     // 현재 위치 update 및 마지막 위치를 얻기 위함
     private FusedLocationProviderClient mFusedLocationClient;
@@ -58,6 +73,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         list.add("붕어방");
         list.add("다산관");
         list.add("미래관");
+
+        //지도 기능
+        GpsTracker gpsTracker = new GpsTracker(this, this);
+
+        longitude = gpsTracker.getLongitude();
+        latitude = gpsTracker.getLatitude();
 
         // 스피너에 붙일 어댑터 초기화
         adapter = new SpinnerAdapter(this, list);
@@ -89,7 +110,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public void onMapReady(@NonNull GoogleMap googleMap) { // 지도가 사용할 준비가 되면 ㅣ 콜백 호출
+        LatLng latLng = new LatLng(latitude, longitude);
+
         gMap = googleMap;
+        gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18));
+        gMap.getUiSettings().setZoomControlsEnabled(true);
+        setCurrentMarker(latLng);
+        gMap.addMarker(currentMarkerOptions);
+        gMap.moveCamera(CameraUpdateFactory.newLatLng(latLng));
+    }
+
+    public void setCurrentMarker(LatLng latLng)
+    {
+        Log.d("marker", "currentmarker");
+        currentMarkerOptions = new MarkerOptions();
+        currentMarkerOptions.position(latLng)
+                .title("현위치")
+                .snippet("지금 여기 있어요~")
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
+
+
 
     }
 
