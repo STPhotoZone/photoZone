@@ -2,13 +2,18 @@ package com.example.stphotozone;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Color;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 
@@ -66,14 +71,33 @@ public class GridAdapter extends BaseAdapter {
         convertView = inflater.inflate(R.layout.grid_item, parent, false);
 
         System.out.println("Here is getView");
+        LinearLayout missionCard = (LinearLayout) convertView.findViewById(R.id.notSubmitted);
+        ImageView imgMission = (ImageView) convertView.findViewById(R.id.imgMission);
 
-        TextView missionName = convertView.findViewById(R.id.textMissionName);
+        if(visible_item.get(position).isChecked)
+        {
+            missionCard.setVisibility(View.INVISIBLE);
+            imgMission.setClickable(true);
+        }
+
+        TextView missionName = (TextView) convertView.findViewById(R.id.textMissionName);
         missionName.setText(visible_item.get(position).getItemName());
+        switch (visible_item.get(position).character ) { // 색 바꿔 주기
+            case BlackDragon:
+                missionName.setTextColor(ContextCompat.getColor(context, R.color.black));
+                break;
+            case Tech:
+                missionName.setTextColor(ContextCompat.getColor(context, R.color.yellow));
+                break;
+            case Ahyu:
+                missionName.setTextColor(ContextCompat.getColor(context, R.color.ahyu));
+                break;
+        }
 
-        TextView missionDescription = convertView.findViewById(R.id.textMissionDescription);
+        TextView missionDescription = (TextView) convertView.findViewById(R.id.textMissionDescription);
         missionDescription.setText(visible_item.get(position).getItemDescription());
 
-        ImageView imgMission = convertView.findViewById(R.id.imgMission);
+
 
         imgMission.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,5 +112,27 @@ public class GridAdapter extends BaseAdapter {
 
     public void setItem(String name, String description , ChallengeActivity.Character character){
         this.array_item.add(new GridItem(name, description, character));
+    }
+
+    public void checkedMission(String _name, Image _missionImg) {
+        int index = 99;
+        boolean alreadyChecked = true;
+
+        for(int i =0; i < array_item.size(); i++) {
+            if(array_item.get(i).name == _name) {
+                index = i;
+                alreadyChecked = array_item.get(i).isChecked;
+                break;
+            }
+        }
+
+        if(!alreadyChecked)
+        {
+            GridItem curItem =array_item.get(index);
+            curItem.image = _missionImg;
+            curItem.isChecked = true;
+
+
+        }
     }
 }

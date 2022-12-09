@@ -1,18 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_width="match_parent"
+    android:layout_height="220dp"
+    android:layout_rowWeight="1">
+
+    <ImageView
+        android:id="@+id/imgMission"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/tech"
+        android:background="@drawable/round"/>
+
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:paddingTop = "80dp"
-        android:paddingBottom = "80dp"
-        android:paddingLeft = "20dp"
-        android:paddingRight = "20dp"
+        android:id="@+id/notSubmitted"
+        android:paddingVertical="80dp"
         android:gravity="center"
         android:background="@drawable/round_background">
 
@@ -35,15 +42,8 @@
             android:textColor="@color/missionText"
             android:textSize="12dp"
             />
-
-        <ImageView
-            android:id="@+id/imgMission"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:layout_editor_absoluteX="0dp"
-            tools:layout_editor_absoluteY="-16dp" />
-
-
     </LinearLayout>
 
-</RelativeLayout>
+
+
+</FrameLayout>
