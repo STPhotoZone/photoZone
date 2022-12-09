@@ -1,7 +1,9 @@
 package com.example.stphotozone;
 
-import android.app.Activity;
+import static com.google.android.gms.location.LocationRequest.PRIORITY_HIGH_ACCURACY;
+
 import android.content.Intent;
+import android.location.LocationRequest;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -11,22 +13,41 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapFragment;
+import com.google.android.gms.maps.OnMapReadyCallback;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MapActivity extends AppCompatActivity {
+public class MapActivity extends AppCompatActivity implements OnMapReadyCallback {
     private List<String> list = new ArrayList<>();
     private Spinner spinner1, spinner2;
     private SpinnerAdapter adapter;
     private String selectedItem;
     private ImageButton imgBtnBack;
 
+    // 지도 관련
+    GoogleMap gMap;
+    MapFragment mapFragment;
+
+    // 현재 위치 update 및 마지막 위치를 얻기 위함
+    private FusedLocationProviderClient mFusedLocationClient;
+    LocationRequest locationRequest;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+        // 지도 연결
+        mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
+        mapFragment.getMapAsync(this);
+
 
         // 각종 findViewById 불러옥
         imgBtnBack = (ImageButton) findViewById(R.id.imgBtnBack);
@@ -63,6 +84,30 @@ public class MapActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+    }
+
+    @Override
+    public void onMapReady(@NonNull GoogleMap googleMap) { // 지도가 사용할 준비가 되면 ㅣ 콜백 호출
+        gMap = googleMap;
+
+    }
+
+    private void setupLocClient() {
+        mFusedLocationClient =
+                LocationServices.getFusedLocationProviderClient(this);
+    }
+
+    private void setLocationRequest() {
+//        locationRequest= new LocationRequest();
+//        locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY);
+//        locationRequest.setInterval(5000);
+//        locationRequest.setFastestInterval(1000);
+
+    }
+
+
+    private void getCurrentLocation(){
 
     }
 }

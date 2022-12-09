@@ -6,6 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".MapActivity">
 
+
     <LinearLayout
         android:id="@+id/topBar"
         android:layout_width="wrap_content"
@@ -50,6 +51,14 @@
             android:layout_height="0dp"
             android:layout_weight="1.5" />
     </LinearLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
 
     <LinearLayout
         android:id="@+id/bottomBar"
