@@ -3,6 +3,11 @@
     package="com.example.stphotozone">
 
     <!-- ArCore 위해서 필요 -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
 
     <!-- AR Core 관련 -->
@@ -45,7 +50,7 @@
             android:value="required" />
 
         <activity
-            android:name=".CloudActivity"
+            android:name=".MapActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -53,7 +58,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".MapActivity" android:label="Map Activity"/>
+        <activity android:name=".CloudActivity" android:exported="true" android:label="Cloud Activity"/>
         <activity android:name=".ChallengeActivity" android:label="Challenge Activity"/>
         <activity android:name=".LoginActivity" android:label="Login Activity"/>
 
