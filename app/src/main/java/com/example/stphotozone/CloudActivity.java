@@ -2,6 +2,7 @@ package com.example.stphotozone;
 
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -23,7 +24,7 @@ import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.IOException;
-
+import java.util.ArrayList;
 
 public class CloudActivity extends AppCompatActivity {
 
@@ -36,8 +37,9 @@ public class CloudActivity extends AppCompatActivity {
     ResolveDialogFragment dialog;
 
     FirebaseStorage storage;
-    StorageReference modelRef;
-    File file;
+    StorageReference model1, model2, model3;
+    ArrayList<File> file = new ArrayList<File>(); // 파일 위치 저장
+    int modelN;
 
     boolean isPlaced = false;
 
@@ -60,6 +62,28 @@ public class CloudActivity extends AppCompatActivity {
 
         arFragment = (CloudAnchorFragment) getSupportFragmentManager().findFragmentById(R.id.ar_fragment);
 
+        // 모델 파일 불러옥
+        model1 = storage.getReference().child("ahyu.glb");
+        model2 = storage.getReference().child("tech.glb");
+        model3 = storage.getReference().child("fly.glb");
+
+        try {
+            file.add(File.createTempFile("ahyu", "glb"));
+            file.add(File.createTempFile("tech", "glb"));
+            file.add(File.createTempFile("fly", "glb"));
+
+            model1.getFile(file.get(0));
+            model2.getFile(file.get(1));
+            model3.getFile(file.get(2));
+
+            // 종료 되면 삭제
+            file.get(0).deleteOnExit();
+            file.get(1).deleteOnExit();
+            file.get(2).deleteOnExit();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         // 터치 했을 때 anchor 호스팅하기!!
         arFragment.setOnTapArPlaneListener((hitResult, plane, motionEvent) -> {
@@ -68,7 +92,7 @@ public class CloudActivity extends AppCompatActivity {
                 appAnchorState = AppAnchorState.HOSTING;
                 Toast.makeText(this, "Hosting...", Toast.LENGTH_SHORT).show();
 
-                createModel(cloudAnchor); // 모델 보여주기
+                createModel(cloudAnchor, modelN); // 모델 보여주기
 
                 isPlaced = true; // 대체 되었다!! 한 번만 작동!!
             }
@@ -93,7 +117,7 @@ public class CloudActivity extends AppCompatActivity {
                     // firebase에 추가!
                     firebaseManager.nextShortCode(shortCode -> {
                         if(shortCode != null){
-                            firebaseManager.storeUsingShortCode(shortCode, cloudAnchorId); // 클라우드 앵커 저장 근데 shortCode를 곁들인
+                            firebaseManager.storeUsingShortCode(shortCode, cloudAnchorId, modelN); // 클라우드 앵커 저장 근데 shortCode를 곁들인
                             Toast.makeText(this, "Cloud Anchor Hosted. Short code: "+ shortCode, Toast.LENGTH_SHORT).show();
                         }
                     }); // 다음 짧은 코드 생성
@@ -122,6 +146,7 @@ public class CloudActivity extends AppCompatActivity {
                 cloudAnchor = null;
                 appAnchorState = AppAnchorState.NONE;
                 isPlaced = false; // 또 둘 수 있다!!
+                modelN = 0;
             }
         });
 
@@ -139,16 +164,19 @@ public class CloudActivity extends AppCompatActivity {
                 @Override
                 public void onOkPressed(String dialogValue) {
                     int shortCode = Integer.parseInt(dialogValue); // 입력 받은 shortCode
-                    firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾어
+
+                    firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾아보세용~
                         if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
                             Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code " + shortCode + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
                             return;
                         }
 
                         cloudAnchor = arFragment.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
-                    });
 
-                    createModel(cloudAnchor); // 모델 만들어!
+                    }, model -> {
+                        Log.d("fuu2", cloudAnchor+"");
+                        createModel(cloudAnchor, model); // 모델 만들어!
+                    });
 
                     Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
                 }
@@ -163,61 +191,46 @@ public class CloudActivity extends AppCompatActivity {
         btn_ahyu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modelRef = storage.getReference().child("ahyu.glb");
-                try {
-                    file = File.createTempFile("ahyu", "glb");
-                    modelRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getApplicationContext(), "아휴 나왔다 뿅", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                modelN = 0;
+                model1.getFile(file.get(0)).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "아휴 나왔다 뿅", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         btn_tech.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modelRef = storage.getReference().child("tech.glb");
-                try {
-                    file = File.createTempFile("tech", "glb");
-                    modelRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getApplicationContext(), "tech 나왔다 뿅", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                modelN = 1;
+                model2.getFile(file.get(1)).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "테크다 뿅", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
         btn_fly.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modelRef = storage.getReference().child("fly.glb");
-                try {
-                    file = File.createTempFile("fly", "glb");
-                    modelRef.getFile(file).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
-                        @Override
-                        public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
-                            Toast.makeText(getApplicationContext(), "날라다닌다 뿅", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                modelN = 2;
+                model3.getFile(file.get(2)).addOnSuccessListener(new OnSuccessListener<FileDownloadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
+                        Toast.makeText(getApplicationContext(), "날라댕기다 뿅", Toast.LENGTH_SHORT).show();
+                    }
+                });
             }
         });
     }
 
 
     // 모델 렌더링
-    private void createModel(Anchor anchor){
+    private void createModel(Anchor anchor, int model){
         ModelRenderable.builder()
-                .setSource(this, Uri.parse(file.getPath()))
+                .setSource(this, Uri.parse(file.get(model).getPath()))
                 .setIsFilamentGltf(true)
                 .setAsyncLoadEnabled(true)
                 .build()
@@ -246,8 +259,5 @@ public class CloudActivity extends AppCompatActivity {
         model.select();
 
     }
-
-
-
 
 }

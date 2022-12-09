@@ -1,9 +1,10 @@
 package com.example.helper;
 
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 
-import com.google.firebase.FirebaseApp;
+import com.example.stphotozone.MyChr;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -11,6 +12,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.MutableData;
 import com.google.firebase.database.Transaction;
 import com.google.firebase.database.ValueEventListener;
+
 
 /** Helper class for Firebase storage of cloud anchor IDs. */
 public class FirebaseManager {
@@ -25,12 +27,18 @@ public class FirebaseManager {
         void onShortCodeAvailable(Integer shortCode);
     }
 
+    public interface ModelListener {
+        void onModelAvailable(int model);
+    }
+
+
     private static final String TAG = FirebaseManager.class.getName();
     private static final String KEY_ROOT_DIR = "shared_anchor"; // 실시간 데이터베이스 가장 root
     private static final String KEY_NEXT_SHORT_CODE = "next_short";
     private static final String KEY_PREFIX = "anchor;";
     private static final int INITIAL_SHORT_CODE = 142; // 초기 ShortCode
-    private final DatabaseReference rootRef;
+    private final DatabaseReference rootRef; // 데이터 베이스 주소 저자
+    int model;
 
     /** Constructor that initializes the Firebase connection. */
     public FirebaseManager() {
@@ -72,23 +80,26 @@ public class FirebaseManager {
     }
 
     /** Stores the cloud anchor ID in the configured Firebase Database. */
-    public void storeUsingShortCode(int shortCode, String cloudAnchorId) {
-        rootRef.child(KEY_PREFIX + shortCode).setValue(cloudAnchorId);
+    public void storeUsingShortCode(int shortCode, String cloudAnchorId, int model) {
+        MyChr character = new MyChr(cloudAnchorId, model);
+        rootRef.child(shortCode+"").setValue(character);
     }
+
 
     /**
      * Retrieves the cloud anchor ID using a short code. Returns an empty string if a cloud anchor ID
      * was not stored for this short code.
      */
-    public void getCloudAnchorId(int shortCode, CloudAnchorIdListener listener) { // 짧은 클라우드 anchor로 보여주게 함!!
-        rootRef
-                .child(KEY_PREFIX + shortCode)
-                .addListenerForSingleValueEvent(
+    public void getCloudAnchorId(int shortCode, CloudAnchorIdListener listener, ModelListener modelListener) { // shortCode로 anchor로 보여주게 함!!
+        rootRef.child(shortCode+"")
+                .addListenerForSingleValueEvent( // 데이터가 변할 때 수신을 위함!!
                         new ValueEventListener() {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 // Listener invoked when the data is successfully read from Firebase.
-                                listener.onCloudAnchorIdAvailable(String.valueOf(dataSnapshot.getValue()));
+                                listener.onCloudAnchorIdAvailable(String.valueOf(dataSnapshot.child("cloud").getValue()));
+                                modelListener.onModelAvailable(Integer.parseInt(String.valueOf(dataSnapshot.child("model").getValue())));
+
                             }
 
                             @Override
@@ -101,4 +112,5 @@ public class FirebaseManager {
                             }
                         });
     }
+
 }

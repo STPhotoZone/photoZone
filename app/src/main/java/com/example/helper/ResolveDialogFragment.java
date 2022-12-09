@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
@@ -48,9 +49,11 @@ public class ResolveDialogFragment extends DialogFragment {
                         "OK",
                         (dialog, which) -> {
                             Editable shortCodeText = shortCodeField.getText();
+                            Log.d("okpressed: ", shortCodeText.toString());
                             if (okListener != null && shortCodeText != null && shortCodeText.length() > 0) {
                                 // Invoke the callback with the current checked item.
                                 okListener.onOkPressed(shortCodeText.toString());
+
                             }
                         })
                 .setNegativeButton("Cancel", (dialog, which) -> {});
