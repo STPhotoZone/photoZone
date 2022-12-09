@@ -50,7 +50,7 @@
             android:value="required" />
 
         <activity
-            android:name=".MapActivity"
+            android:name=".CameraActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -58,6 +58,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".MapActivity" android:exported="true" android:label="Map Activity"/>
         <activity android:name=".CloudActivity" android:exported="true" android:label="Cloud Activity"/>
         <activity android:name=".ChallengeActivity" android:label="Challenge Activity"/>
         <activity android:name=".LoginActivity" android:label="Login Activity"/>

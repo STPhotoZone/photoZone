@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
@@ -42,22 +43,29 @@ import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 
+import java.io.File;
+import java.io.IOException;
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class CameraActivity extends AppCompatActivity implements
         FragmentOnAttachListener,
         BaseArFragment.OnSessionConfigurationListener {
+
     // cloud 앵커를 위함
-    ResolveDialogFragment dialog;
-    FirebaseManager firebaseManager = new FirebaseManager();
+    FirebaseManager firebaseManager = new FirebaseManager(); // firebase에 클라우드 앵커 저장하기
+
+    FirebaseStorage storage;
+    StorageReference model1, model2, model3;
+    ArrayList<File> file = new ArrayList<File>(); // 파일 위치 저장
 
     // IconButton
     ImageButton gallery, map, challenge, more, take_photo;
 
     // object of ArFragment Class
     private ArFragment arCam;
-    private Renderable model;
+    Anchor cloudAnchor;
 
     private int clickNo = 0;
 
@@ -89,8 +97,33 @@ public class CameraActivity extends AppCompatActivity implements
         setContentView(R.layout.activity_camera);
         // Firebase를 위함
         FirebaseApp.initializeApp(this);
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference modelRef = storage.getReference();
+        storage = FirebaseStorage.getInstance();
+
+
+        // 모델 관련
+        // 모델 파일 불러옥
+        model1 = storage.getReference().child("ahyu.glb");
+        model2 = storage.getReference().child("tech.glb");
+        model3 = storage.getReference().child("fly.glb");
+
+        try {
+            file.add(File.createTempFile("ahyu", "glb"));
+            file.add(File.createTempFile("tech", "glb"));
+            file.add(File.createTempFile("fly", "glb"));
+
+            model1.getFile(file.get(0));
+            model2.getFile(file.get(1));
+            model3.getFile(file.get(2));
+
+            // 종료 되면 삭제
+            file.get(0).deleteOnExit();
+            file.get(1).deleteOnExit();
+            file.get(2).deleteOnExit();
+        } catch (
+                IOException e) {
+            e.printStackTrace();
+        }
+
 
         /*초기화*/
         take_photo = (ImageButton) findViewById(R.id.take_photo);
@@ -113,8 +146,6 @@ public class CameraActivity extends AppCompatActivity implements
                 }
             }
 
-            loadModels();
-
         } else { // checkCameraSystem false
             return;
         }
@@ -135,28 +166,23 @@ public class CameraActivity extends AppCompatActivity implements
             }
         });
 
+        // 찾기
         take_photo.setOnClickListener(view -> {
             // 짧은 코드로 reolve할 모델 찾기!!
-            dialog = new ResolveDialogFragment();
-            dialog.setOkListener(new ResolveDialogFragment.OkListener() {
-                @Override
-                public void onOkPressed(String dialogValue) {
-                    int shortCode = Integer.parseInt(dialogValue); // 입력 받은 shortCode
-                    firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾어
-                        if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
-                            Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code " + shortCode + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
-                            return;
-                        }
-
-                        Anchor c = arCam.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
-                    });
-
-                    //loadModels(c); // 모델 만들어!
-
-                    Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
+            firebaseManager.getCloudAnchorId(147, cloudAnchorId -> { // firebase에서 찾아보세용~
+                if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code " + 147 + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
+                    return;
                 }
+
+                cloudAnchor = arCam.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
+
+            }, model -> {
+                Log.d("fuu2", cloudAnchor+"");
+                createModel(cloudAnchor, model); // 모델 만들어!
             });
-            dialog.show(getSupportFragmentManager(), "Resolve");
+
+            Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
         });
     }
 
@@ -179,19 +205,15 @@ public class CameraActivity extends AppCompatActivity implements
         config.setCloudAnchorMode(Config.CloudAnchorMode.ENABLED);
     }
 
-    // 모델 불러오기
-    public void loadModels() {
-        WeakReference<CameraActivity> weakActivity = new WeakReference<CameraActivity>(this);
+    // 모델 렌더링
+    private void createModel(Anchor anchor, int model){
         ModelRenderable.builder()
-                .setSource(this, R.raw.ahyu)
+                .setSource(this, Uri.parse(file.get(model).getPath()))
                 .setIsFilamentGltf(true)
                 .setAsyncLoadEnabled(true)
                 .build()
-                .thenAccept(model -> {
-                    CameraActivity activity = weakActivity.get();
-                    if (activity != null) {
-                        activity.model = model;
-                    }
+                .thenAccept(modelRenderable -> {
+                    placeModel(anchor, modelRenderable);
                 })
                 .exceptionally(throwable -> {
                     Toast.makeText(
@@ -199,26 +221,6 @@ public class CameraActivity extends AppCompatActivity implements
                     return null;
                 });
     }
-
-//    @Override
-//    public void onTapPlane(HitResult hitResult, Plane plane, MotionEvent motionEvent) {
-//        if (model == null) {
-//            Toast.makeText(this, "Loading...", Toast.LENGTH_SHORT).show();
-//            return;
-//        }
-//
-//        // Create the Anchor.
-//        Anchor anchor = hitResult.createAnchor();
-//        AnchorNode anchorNode = new AnchorNode(anchor);
-//        anchorNode.setParent(arCam.getArSceneView().getScene());
-//
-//        // Create the transformable model and add it to the anchor.
-//        TransformableNode model = new TransformableNode(arCam.getTransformationSystem());
-//        model.setParent(anchorNode);
-//        model.setRenderable(this.model)
-//                .animate(true).start();
-//        model.select();
-//    }
 
     // 모델 앵커로 위치시키기
     private void placeModel(Anchor anchor, ModelRenderable modelRenderable){
