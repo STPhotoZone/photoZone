@@ -56,7 +56,14 @@
         <View
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_weight="1.5" />
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/imgBtnRefresh"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:background="@drawable/change"
+            tools:ignore="SpeakableTextPresentCheck,TouchTargetSizeCheck" />
     </LinearLayout>
 
 
