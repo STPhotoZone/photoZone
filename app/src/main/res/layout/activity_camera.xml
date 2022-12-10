@@ -6,11 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".CameraActivity">
 
+
     <!--This is the fragment that will be used as AR camera-->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/arArea"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent" >
+    </androidx.fragment.app.FragmentContainerView>
+
+
 
     <LinearLayout
         android:id="@+id/topBar"
