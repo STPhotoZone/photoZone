@@ -23,12 +23,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.example.helper.FirebaseManager;
+import com.example.helper.ResolveDialogFragment;
 import com.example.helper.VideoRecorder;
 import com.google.ar.core.Anchor;
 import com.google.ar.core.Config;
@@ -65,10 +67,9 @@ public class CameraActivity extends AppCompatActivity implements
     FirebaseStorage storage;
     StorageReference model1, model2, model3;
     ArrayList<File> file = new ArrayList<File>(); // 파일 위치 저장
-    SurfaceTexture surfaceTexture;
 
     // IconButton
-    ImageButton gallery, map, challenge, more, take_photo;
+    ImageButton gallery, map, challenge, more, take_photo, setting, change;
 
     // object of ArFragment Class
     private ArFragment arFragment;
@@ -79,6 +80,10 @@ public class CameraActivity extends AppCompatActivity implements
 
     // check place
     public String checkPlace;
+    int i = 0;
+    int j = 0;
+    int shortCode;
+    ResolveDialogFragment dialog;
 
     // check the phone' hardware
     // checking whether the API version of the running Android >=24
@@ -169,8 +174,8 @@ public class CameraActivity extends AppCompatActivity implements
         map = (ImageButton) findViewById(R.id.map);
         challenge = (ImageButton) findViewById(R.id.challenge);
         more = (ImageButton) findViewById(R.id.more);
-
-
+        setting = (ImageButton) findViewById(R.id.setting);
+        change = (ImageButton) findViewById(R.id.change);
 
         /* 버튼 클릭 처리 부분*/
         map.setOnClickListener(new View.OnClickListener() { // 지도 액티비티
@@ -201,7 +206,7 @@ public class CameraActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 Intent intent = new Intent(Intent.ACTION_PICK); // 갤러리에 접근하도록 선택하게 설정
                 intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                intent.setType("image/*"); // 이미지 저장하는 애들만 열도록!!!
+                intent.setType("video/*"); // 이미지 저장하는 애들만 열도록!!!
                 startActivity(intent);
 //                Intent intent = new Intent();
 //                intent.setType("image/*");
@@ -210,26 +215,74 @@ public class CameraActivity extends AppCompatActivity implements
             }
         });
 
+        // 임시 코드
+        setting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (cloudAnchor != null) { // cloud 앵커가 그대로 있으면 지우라고 요구
+                    Toast.makeText(getApplicationContext(), "Please clear the anchor", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                j = 10;
+
+                // 짧은 코드로 reolve할 모델 찾기!!
+                dialog = new ResolveDialogFragment();
+                dialog.setOkListener(new ResolveDialogFragment.OkListener() {
+                    @Override
+                    public void onOkPressed(String dialogValue) {
+                        int shortCode = Integer.parseInt(dialogValue); // 입력 받은 shortCode
+
+                        firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾아보세용~
+                            if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code " + shortCode + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
+                                return;
+                            }
+
+                            cloudAnchor = arFragment.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
+
+                        }, model -> {
+                            createModel(cloudAnchor, model); // 모델 만들어!
+                        });
+
+                        Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                dialog.show(getSupportFragmentManager(), "Resolve");
+            }
+        });
+        // 모델 제거
+        change.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                cloudAnchor.detach();
+                cloudAnchor = null;
+                j = 0;
+            }
+        });
+
 
         // 사진 촬영
         take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // 모델 불러오기
-                // 짧은 코드로 reolve할 모델 찾기!!
-                int shortCode = selectModel(checkPlace);
-                firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾아보세용~
-                    if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
-                        Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code" + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
-                        return;
-                    }
 
-                    cloudAnchor = arFragment.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
+                    // 모델 불러오기
+                    // 짧은 코드로 reolve할 모델 찾기!!
+                    shortCode = selectModel(checkPlace);
+                    if(j != 10){
+                        firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾아보세용~
+                            if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
+                                Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code" + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
+                                return;
+                            }
 
-                }, model -> {
-                    createModel(cloudAnchor, model); // 모델 만들어!
-                    Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
-                });
+                            cloudAnchor = arFragment.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
+
+                            }, model -> {
+                            createModel(cloudAnchor, model); // 모델 만들어!
+                            Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
+                        });
+                }
 
                 // 영상 test
                 if(videoRecorder == null){
@@ -254,6 +307,7 @@ public class CameraActivity extends AppCompatActivity implements
         });
 
     }
+
 
     @Override
     public void onAttachFragment(@NonNull FragmentManager fragmentManager, @NonNull Fragment fragment) {
@@ -284,6 +338,7 @@ public class CameraActivity extends AppCompatActivity implements
                 .thenAccept(modelRenderable -> {
                     placeModel(anchor, modelRenderable);
                     checkModel = model; // 모델 확인
+                    Log.d("checkModel", checkModel+""+model);
                     update(); // 도전과제 정보 업데이트
                 })
                 .exceptionally(throwable -> {

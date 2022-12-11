@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.LocationManager;
 import android.location.LocationRequest;
+
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -184,9 +185,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 .title("현위치")
                 .snippet("지금 여기 있어요~")
                 .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_CYAN));
-
-
-
     }
 
     private void setupLocClient() {
@@ -204,6 +202,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
 
     private void getCurrentLocation(){
+
 
     }
 
@@ -321,8 +320,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     // 해당 위치 확인 하는 함수
     public String wherePlace(LatLng latlng){
-        this.place = "미래관"; // 설정
-        return this.place;
+        if(latlng.longitude > 127.08) place = "미래관"; // 설정
+        else if(latlng.latitude > 37.633) place = "붕어방";
+        else place = "다산관";
+        return place;
     }
 }
 
