@@ -50,6 +50,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
     TextView nickName;
     TextView missionCount;
+    int count = -1;
 
     public static Context context;
 
@@ -69,7 +70,16 @@ public class ChallengeActivity extends AppCompatActivity {
         nickName =  (TextView) findViewById(R.id.txtNickname);
         missionCount = (TextView) findViewById(R.id.txtCount);
 
-        setUserInfo();
+        if(firebaseAuth.getCurrentUser() != null)
+        {
+            setUserInfo();
+        }
+        else
+        {
+            Intent intent = new Intent(getApplicationContext(), LoginActivity.class); // 먼저 로그인이 되어야 함
+            startActivity(intent);
+        }
+
 
         mission_grid = (GridView) findViewById(R.id.grid_mission);
         mission_gridAdt = new GridAdapter(this);
@@ -199,6 +209,7 @@ public class ChallengeActivity extends AppCompatActivity {
 
     public void addMissionCount(int _modelId) {
 
+        Log.d("firebase : ", firebaseAuth.getCurrentUser()+"");
         if(firebaseAuth != null)
         {
             CollectionReference productRef = db.collection("users");

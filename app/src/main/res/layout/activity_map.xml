@@ -40,18 +40,6 @@
             android:layout_height="0dp"
             android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/place"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="1"
-            android:fontFamily="@font/bold"
-            android:gravity="center"
-            android:text="붕어방"
-            android:textColor="@color/main_naivy"
-            android:textSize="20dp"
-            android:textStyle="bold" />
 
         <View
             android:layout_width="0dp"

@@ -27,6 +27,7 @@ import android.provider.ContactsContract;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.helper.FirebaseManager;
@@ -82,6 +83,7 @@ public class CameraActivity extends AppCompatActivity implements
     public String checkPlace;
     int i = 0;
     int j = 0;
+    int k = 0;
     int shortCode;
     ResolveDialogFragment dialog;
 
@@ -113,6 +115,8 @@ public class CameraActivity extends AppCompatActivity implements
         // 지도에서 위치 정보 받기
         Intent intent = getIntent();
         checkPlace = intent.getStringExtra("place");
+       // Log.d("c", checkPlace);
+
 
         // 카메라 촬영을 위한..
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -188,8 +192,8 @@ public class CameraActivity extends AppCompatActivity implements
         challenge.setOnClickListener(new View.OnClickListener() { // 도전과제 액티비티
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), LoginActivity.class); // 먼저 로그인이 되어야 함
-                startActivity(intent);
+                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class); // 먼저 로그인이 되어야 함
+                    startActivity(intent);
             }
         });
 
@@ -223,7 +227,6 @@ public class CameraActivity extends AppCompatActivity implements
                     Toast.makeText(getApplicationContext(), "Please clear the anchor", Toast.LENGTH_SHORT).show();
                     return;
                 }
-                j = 10;
 
                 // 짧은 코드로 reolve할 모델 찾기!!
                 dialog = new ResolveDialogFragment();
@@ -265,11 +268,10 @@ public class CameraActivity extends AppCompatActivity implements
         take_photo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                     // 모델 불러오기
                     // 짧은 코드로 reolve할 모델 찾기!!
                     shortCode = selectModel(checkPlace);
-                    if(j != 10){
+                    Log.d("check place", checkPlace+"");
                         firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾아보세용~
                             if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
                                 Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code" + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
@@ -281,9 +283,8 @@ public class CameraActivity extends AppCompatActivity implements
                             }, model -> {
                             createModel(cloudAnchor, model); // 모델 만들어!
                             Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
+                            Log.d("resolve", model+"");
                         });
-                }
-
                 // 영상 test
                 if(videoRecorder == null){
                     videoRecorder = new VideoRecorder();
@@ -330,6 +331,7 @@ public class CameraActivity extends AppCompatActivity implements
 
     // 모델 렌더링
     private void createModel(Anchor anchor, int model) {
+        Log.d("call create", "uccess");
         ModelRenderable.builder()
                 .setSource(this, Uri.parse(file.get(model).getPath()))
                 .setIsFilamentGltf(true)
@@ -338,12 +340,10 @@ public class CameraActivity extends AppCompatActivity implements
                 .thenAccept(modelRenderable -> {
                     placeModel(anchor, modelRenderable);
                     checkModel = model; // 모델 확인
+                    Log.d("create Model", model+""+checkModel);
                     update(checkModel); // 도전과제 정보 업데이트
                 })
                 .exceptionally(throwable -> {
-                    Toast.makeText(
-                            this, "Unable to load model", Toast.LENGTH_LONG).show();
-                    checkModel = -1;
                     return null;
                 });
     }
@@ -367,8 +367,8 @@ public class CameraActivity extends AppCompatActivity implements
     public int selectModel(String place){
         if(place == "미래관") return 159;
         if(place == "다산관") return 153;
-        if(place == "붕어방") return 152;
-        return 158; // 아휴
+        if(place == "붕어방") return 163;
+        return 163; // 테크
     }
 
     // 모델 확인
@@ -380,6 +380,7 @@ public class CameraActivity extends AppCompatActivity implements
     public void update(int _checkModel){
         // 있는지 확인하고
         ((ChallengeActivity)ChallengeActivity.context).addMissionCount(_checkModel);
+        Log.d("uypate", checkModel+"");
         // 개수 늘리고
         // 확인 표시
     }

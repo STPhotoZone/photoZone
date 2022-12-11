@@ -134,6 +134,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
                 intent.putExtra("place", place);
                 startActivity(intent);
+                finish();
             }
         });
 
