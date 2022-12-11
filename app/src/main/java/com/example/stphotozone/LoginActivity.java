@@ -214,6 +214,9 @@ public class LoginActivity extends AppCompatActivity {
         user.put("email", firebaseAuth.getCurrentUser().getEmail());
         user.put("nickname", str);
         user.put("mission_num", 0);
+        user.put("mission_Id0", false);
+        user.put("mission_Id1", false);
+        user.put("mission_Id2", false);
 
         db.collection("users")
                 .add(user)

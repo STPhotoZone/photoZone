@@ -3,6 +3,7 @@ package com.example.stphotozone;
 import static android.content.ContentValues.TAG;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -37,7 +38,7 @@ import java.util.Map;
 public class ChallengeActivity extends AppCompatActivity {
 
     private GridView mission_grid;
-    private GridAdapter mission_gridAdt;
+    public static GridAdapter mission_gridAdt;
 
     public enum Character{ BlackDragon, Tech, Ahyu};
 
@@ -50,10 +51,14 @@ public class ChallengeActivity extends AppCompatActivity {
     TextView nickName;
     TextView missionCount;
 
+    public static Context context;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.challenge);
+
+        context = this;
 
         firebaseAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
@@ -69,9 +74,9 @@ public class ChallengeActivity extends AppCompatActivity {
         mission_grid = (GridView) findViewById(R.id.grid_mission);
         mission_gridAdt = new GridAdapter(this);
 
-        mission_gridAdt.setItem( getString(R.string.Flying_Tech_name), getString(R.string.Flying_Tech_description), Character.Tech);
-        mission_gridAdt.setItem( getString(R.string.Tech_name), getString(R.string.Tech_description), Character.Tech);
-        mission_gridAdt.setItem( getString(R.string.Ahyu_name), getString(R.string.Ahyu_description), Character.Ahyu);
+        mission_gridAdt.setItem( getString(R.string.Flying_Tech_name), getString(R.string.Flying_Tech_description), Character.Tech, 2);
+        mission_gridAdt.setItem( getString(R.string.Tech_name), getString(R.string.Tech_description), Character.Tech, 1);
+        mission_gridAdt.setItem( getString(R.string.Ahyu_name), getString(R.string.Ahyu_description), Character.Ahyu, 0);
 
 
         for(int j=0; j <mission_gridAdt.getArrayCount(); j++)
@@ -192,31 +197,42 @@ public class ChallengeActivity extends AppCompatActivity {
 
     }
 
-    public void addMissionCount() {
+    public void addMissionCount(int _modelId) {
 
-        CollectionReference productRef = db.collection("users");
-        productRef
-                .whereEqualTo("email", firebaseAuth.getCurrentUser().getEmail())
-                .get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            for (QueryDocumentSnapshot document : task.getResult()) {
-                                Map<String, Object> data = document.getData();
+        if(firebaseAuth != null)
+        {
+            CollectionReference productRef = db.collection("users");
+            productRef
+                    .whereEqualTo("email", firebaseAuth.getCurrentUser().getEmail())
+                    .get()
+                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    Map<String, Object> data = document.getData();
 
-                                String num = data.get("mission_num").toString();
+                                    String num = data.get("mission_num").toString();
 
-                                int cnt = Integer.parseInt(num) + 1;
+                                    if (Boolean.parseBoolean(data.get("mission_Id"+String.valueOf(_modelId)).toString()))
+                                    {
+                                        int cnt = Integer.parseInt(num) + 1;
 
-                                Map<Object, String> mapIn = new HashMap<>();
-                                mapIn.put("mission_num", Integer.toString(cnt));
-                                productRef.document(document.getId()).set(mapIn, SetOptions.merge());
+                                        Map<Object, String> mapIn = new HashMap<>();
+                                        mapIn.put("mission_num", Integer.toString(cnt));
+                                        mapIn.put("mission_Id" +_modelId, Boolean.toString(true));
+                                        productRef.document(document.getId()).set(mapIn, SetOptions.merge());
+                                    }
+
+
+                                }
+
                             }
-
                         }
-                    }
-                });
+                    });
+        }
+
+
 
     }
 }

@@ -284,7 +284,7 @@ public class CameraActivity extends AppCompatActivity implements
                 .thenAccept(modelRenderable -> {
                     placeModel(anchor, modelRenderable);
                     checkModel = model; // 모델 확인
-                    update(); // 도전과제 정보 업데이트
+                    update(checkModel); // 도전과제 정보 업데이트
                 })
                 .exceptionally(throwable -> {
                     Toast.makeText(
@@ -323,8 +323,11 @@ public class CameraActivity extends AppCompatActivity implements
     }
 
     // 도전과제 정보 업데이트
-    public void update(){
-
+    public void update(int _checkModel){
+        // 있는지 확인하고
+        ((ChallengeActivity)ChallengeActivity.context).addMissionCount(_checkModel);
+        // 개수 늘리고
+        // 확인 표시
     }
 
 }
