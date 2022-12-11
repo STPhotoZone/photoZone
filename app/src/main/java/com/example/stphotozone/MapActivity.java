@@ -68,6 +68,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private FusedLocationProviderClient mFusedLocationClient;
     LocationRequest locationRequest;
 
+    String place;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,15 +126,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         });
 
-        /* 버튼 클릭 처리 부분*/
+        /* 뒤로가기 버튼 클릭 처리 부분*/
         imgBtnBack.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), CameraActivity.class);
+                intent.putExtra("place", place);
                 startActivity(intent);
             }
         });
 
+        // 갱신
         imgBtnRefresh.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,6 +153,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 gMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 18));
                 setCurrentMarker(latlng);
                 currentMarker = gMap.addMarker(currentMarkerOptions);
+
+                wherePlace(latlng); // 해당 위치로 주소 찾ㄱ
             }
         });
 
@@ -311,6 +317,12 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER) ||
                 locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+    }
+
+    // 해당 위치 확인 하는 함수
+    public String wherePlace(LatLng latlng){
+        this.place = "미래관"; // 설정
+        return this.place;
     }
 }
 

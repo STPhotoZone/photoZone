@@ -104,7 +104,7 @@ public class VideoRecorder {
     private void buildFilename() {
         if (videoDirectory == null) {
             Log.d("dir", videoDirectory+"");
-            videoDirectory = new File(String.valueOf(Environment.getExternalStoragePublicDirectory("/DCIM/Camera/"))); // 갤러리 접근
+            videoDirectory = new File(String.valueOf(Environment.getExternalStoragePublicDirectory("/DCIM/Camera/STphotozone"))); // 갤러리 접근
                     //new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/STphotozone");
             Log.d("dir", videoDirectory+"");
         }

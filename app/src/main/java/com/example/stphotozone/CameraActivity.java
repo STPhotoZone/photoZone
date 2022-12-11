@@ -74,6 +74,12 @@ public class CameraActivity extends AppCompatActivity implements
     private ArFragment arFragment;
     Anchor cloudAnchor;
 
+    // check model
+    public int checkModel;
+
+    // check place
+    public String checkPlace;
+
     // check the phone' hardware
     // checking whether the API version of the running Android >=24
     public static boolean checkCameraSystem(Activity activity) {
@@ -98,6 +104,10 @@ public class CameraActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_camera);
+
+        // 지도에서 위치 정보 받기
+        Intent intent = getIntent();
+        checkPlace = intent.getStringExtra("place");
 
         // 카메라 촬영을 위한..
         if(ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
@@ -189,16 +199,14 @@ public class CameraActivity extends AppCompatActivity implements
         gallery.setOnClickListener(new View.OnClickListener() { // 갤러리 액티비티
             @Override
             public void onClick(View view) {
-                // 이 부분 다름!!!!!!!!!!!
-
-//                Intent intent = new Intent(Intent.ACTION_PICK); // 갤러리에 접근하도록 선택하게 설정
-//                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-//                intent.setType("image/*"); // 이미지 저장하는 애들만 열도록!!!
-//                startActivity(intent);
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
+                Intent intent = new Intent(Intent.ACTION_PICK); // 갤러리에 접근하도록 선택하게 설정
+                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                intent.setType("image/*"); // 이미지 저장하는 애들만 열도록!!!
                 startActivity(intent);
+//                Intent intent = new Intent();
+//                intent.setType("image/*");
+//                intent.setAction(Intent.ACTION_GET_CONTENT);
+//                startActivity(intent);
             }
         });
 
@@ -209,16 +217,16 @@ public class CameraActivity extends AppCompatActivity implements
             public void onClick(View view) {
                 // 모델 불러오기
                 // 짧은 코드로 reolve할 모델 찾기!!
-                firebaseManager.getCloudAnchorId(148, cloudAnchorId -> { // firebase에서 찾아보세용~
+                int shortCode = selectModel(checkPlace);
+                firebaseManager.getCloudAnchorId(shortCode, cloudAnchorId -> { // firebase에서 찾아보세용~
                     if(cloudAnchorId == null || cloudAnchorId.isEmpty()){
-                        Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code " + 147 + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
+                        Toast.makeText(getApplicationContext(), "A Cloud Anchor ID for the short code" + " was not found.", Toast.LENGTH_SHORT).show(); // 찾을 수 없다!!
                         return;
                     }
 
                     cloudAnchor = arFragment.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
 
                 }, model -> {
-                    Log.d("fuu2", cloudAnchor+"");
                     createModel(cloudAnchor, model); // 모델 만들어!
                     Toast.makeText(getApplicationContext(), "Now resolving anchor...", Toast.LENGTH_SHORT).show();
                 });
@@ -275,10 +283,13 @@ public class CameraActivity extends AppCompatActivity implements
                 .build()
                 .thenAccept(modelRenderable -> {
                     placeModel(anchor, modelRenderable);
+                    checkModel = model; // 모델 확인
+                    update(); // 도전과제 정보 업데이트
                 })
                 .exceptionally(throwable -> {
                     Toast.makeText(
                             this, "Unable to load model", Toast.LENGTH_LONG).show();
+                    checkModel = -1;
                     return null;
                 });
     }
@@ -296,6 +307,23 @@ public class CameraActivity extends AppCompatActivity implements
                 .animate(true).start();
         arFragment.getArSceneView().getScene().addChild(anchorNode);
         model.select();
+    }
+
+    // 장소에 따른 모델 선택
+    public int selectModel(String place){
+        if(place == "미래관") return 159;
+        if(place == "다산관") return 153;
+        if(place == "붕어방") return 152;
+        return 158; // 아휴
+    }
+
+    // 모델 확인
+    public int getCheckModel(){
+        return checkModel;
+    }
+
+    // 도전과제 정보 업데이트
+    public void update(){
 
     }
 

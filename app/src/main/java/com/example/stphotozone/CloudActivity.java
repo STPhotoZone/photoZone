@@ -99,7 +99,6 @@ public class CloudActivity extends AppCompatActivity {
 
         });
 
-
         // 업데이트 될 때마다 실행!!
         arFragment.getArSceneView().getScene().addOnUpdateListener(frameTime -> {
             if(appAnchorState != AppAnchorState.HOSTING) return;
@@ -174,7 +173,6 @@ public class CloudActivity extends AppCompatActivity {
                         cloudAnchor = arFragment.getArSceneView().getSession().resolveCloudAnchor(cloudAnchorId); // 해당 위치로 Anchor 가져오기
 
                     }, model -> {
-                        Log.d("fuu2", cloudAnchor+"");
                         createModel(cloudAnchor, model); // 모델 만들어!
                     });
 
