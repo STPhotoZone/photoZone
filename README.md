@@ -11,11 +11,6 @@
 >           
 > <img src="https://github.com/STPhotoZone/photoZone/assets/63052097/441d014b-75b9-43c6-85b5-f4f99c604964" width=400 /> 테크 사진 
 
-
-
-서울과학기술대학교 **_Mobile Programming_** 수업에서 진행한 프로젝트       
-**✅ 기간** : 2022.10~
-
 <br>
 
 ## Introduce
@@ -36,5 +31,21 @@
 
 <br>
 
-## 시연 영상
+## Demo
 [YouTube Link](https://youtu.be/laC_sD8j0kU)
+
+<br>
+
+## Features
+
+<br>
+
+## Tech Stack
+Android&Java:
+ARCore & Sceneform:
+Firebase:
+
+<br>
+
+## Reference
+[ARCore Cloud Anchors with persistent Cloud Anchors](https://codelabs.developers.google.com/codelabs/arcore-cloud-anchors?hl=ko#0)
