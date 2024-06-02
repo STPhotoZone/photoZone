@@ -6,7 +6,9 @@
 STPhotozone은 서울과학기술대학교 캠퍼스에서 ST FREINDS AR 캐릭터와 사진을 찍을 수 있는 애플리케이션.           
 *ST AR PhotoZone is an Application to take pictures with ST FREINDS AR characters on the campus of SeoulTech(Seoul National University of Science and Technology)*
 ST Freinds와 함께 서울과학기술대학교 캠퍼스에 관한 특색 있는 사진을 가질 수 있게한다.                           
- 
+<img src="https://github.com/STPhotoZone/photoZone/assets/63052097/e09b1beb-55f9-44f2-bd25-9c0e2e35ae1e" width=400 />
+<img src="https://github.com/STPhotoZone/photoZone/assets/63052097/0ca74092-a778-4b7a-a38a-7b67a821d1a2" width=400 /> 
+
 <br>
 
 **🤔 [What is ST FREINDS?](http://newsletter.seoultech.ac.kr/enewspaper/articleview.php?aid=2312&mvid=355)**      
@@ -119,26 +121,38 @@ private void capturePhoto() {
 <br>
 
 ## Demo
-[YouTube Link]()
+[YouTube Link](https://www.youtube.com/shorts/XF2PNxWLRiY)
 
+<br>
 <br>
 
 ## Features
-1. Model 선택 : "테크", "아휴" 중 원하는 모델을 선택.   
+![demo1 (2)](https://github.com/STPhotoZone/photoZone/assets/63052097/a6e9bea5-8ee4-4c2d-b6be-2229084f90af)
+
+<br>
+
+![demo3](https://github.com/STPhotoZone/photoZone/assets/63052097/431fb917-c407-446c-b98c-6331fc4e504e)
+1. Model 선택 : "테크", "아휴" 중 원하는 모델을 선택.
+
+<br>
+
+![demo4](https://github.com/STPhotoZone/photoZone/assets/63052097/3c3bf182-53fb-4faf-83bf-88546b66a721)
 2. 원하는 위치에 모델 렌더링 : 원하는 위치에서 화면을 탭하여 Anchor를 생성하고, 해당 Anchor에 모델이 렌더링.    
-3. Camera 기능 : 사진 촬영 후 Preview 이미지를 보고 다시 촬영하거나 갤러리에 저장.     
+
+<br>
+
+![demo5](https://github.com/STPhotoZone/photoZone/assets/63052097/8f94d069-d966-46b0-9642-4b47bb0c716f)
+<img src-"https://github.com/STPhotoZone/photoZone/assets/63052097/c14bfc85-7dc4-49f9-9346-3a87e1e3c7ac" width=400 />
+
+3. Camera 기능 : 사진 촬영 후 Preview 이미지를 보고 갤러리에 저장.     
 
 <br>
 <br>
 
 ## Tech Stack
-Android, Java
-ARCore & Sceneform:
-
-<br>
-<br>
-
-## 한계
+- Android, Java : 모바일 애플리케이션을 구축하기 위해 사용   
+- ARCore : AR 환경을 구축하기 위한 SDK
+- Sceneform : ARCore API를 사용할 때 OpenGL을 배우지 않고도 사용할 수 있게 도와주는 플러그
 
 <br>
 <br>
