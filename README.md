@@ -131,7 +131,7 @@ private void capturePhoto() {
 
 <br>
 
-![demo3](https://github.com/STPhotoZone/photoZone/assets/63052097/431fb917-c407-446c-b98c-6331fc4e504e)
+![demo3](/demo3.gif)      
 1. Model 선택 : "테크", "아휴" 중 원하는 모델을 선택.
 
 <br>
