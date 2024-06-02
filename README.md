@@ -18,12 +18,15 @@ ST Freinds와 함께 서울과학기술대학교 캠퍼스에 관한 특색 있�
 <br>
 
 ## 주요 Process
-**1. Build ARCore Environment using `Session`**    
-- ARCore Session을 configure하여 AR 환경을 빌드    
-- `Session`이란    
+**1. Build ARCore Environment**    
+- ARCore Session을 configure하여 AR 환경을 빌드
+- 이때, lighting estimation, depth Mode를 configuration에 설정정
+
+> `Session`이란    
  : motion tracking, environmental understanding, and lighting estimation과 같은 모든 AR 프로세스는 ARCore Session 내에서 발생     
  : ARCore API의 기본 진입점    
  : AR 시스템 상태를 관리하고 Session lifeCycle을 처리하여 앱이 Session create, configure, start, stop할 수 있도록 함시 해당 좌표에 anchor가 생성되고 원하는 model을 render한 후 해당 anchor에 transform.
+ : 앱에서 camera image and device pose.에 액세스할 수 있는 frame을 얻을 수 있음.
 
 ```java
 private void createModel(Anchor anchor, int modelN){
@@ -136,6 +139,11 @@ private void capturePhoto() {
 ## Tech Stack
 Android, Java
 ARCore & Sceneform:
+
+<br>
+<br>
+
+## 한계
 
 <br>
 <br>
