@@ -115,11 +115,6 @@ private void capturePhoto() {
     }
 ```
 
-
-<p>
-<img src="https://user-images.githubusercontent.com/63052097/211022322-1730893d-027f-4090-a75a-b7ab1601eb69.png" width=600 />
-</p>
-
 <br>
 <br>
 
