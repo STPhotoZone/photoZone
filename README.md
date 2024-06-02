@@ -27,7 +27,7 @@ ST Freinds와 함께 서울과학기술대학교 캠퍼스에 관한 특색 있�
 > `Session`이란    
  : motion tracking, environmental understanding, and lighting estimation과 같은 모든 AR 프로세스는 ARCore Session 내에서 발생     
  : ARCore API의 기본 진입점    
- : AR 시스템 상태를 관리하고 Session lifeCycle을 처리하여 앱이 Session create, configure, start, stop할 수 있도록 함시 해당 좌표에 anchor가 생성되고 원하는 model을 render한 후 해당 anchor에 transform.
+ : AR 시스템 상태를 관리하고 Session lifeCycle을 처리하여 앱이 Session create, configure, start, stop할 수 있도록 함시 해당 좌표에 anchor가 생성되고 원하는 model을 render한 후 해당 anchor에 transform.         
  : 앱에서 camera image and device pose.에 액세스할 수 있는 frame을 얻을 수 있음.
 
 ```java
@@ -126,13 +126,14 @@ private void capturePhoto() {
 <br>
 <br>
 
-## Features
-![demo1 (2)](https://github.com/STPhotoZone/photoZone/assets/63052097/a6e9bea5-8ee4-4c2d-b6be-2229084f90af)
+## Features        
 
-<br>
+![demo2](/demo2.gif)       
 
-![demo3](/demo3.gif)      
-1. Model 선택 : "테크", "아휴" 중 원하는 모델을 선택.
+<br>       
+
+![demo3](/demo3.gif)             
+1. Model 선택 : "테크", "아휴" 중 원하는 모델을 선택.     
 
 <br>
 
