@@ -136,13 +136,14 @@ private void capturePhoto() {
 
 <br>
 
-![demo4](https://github.com/STPhotoZone/photoZone/assets/63052097/3c3bf182-53fb-4faf-83bf-88546b66a721)
+![demo4](/demo4.gif)      
 2. 원하는 위치에 모델 렌더링 : 원하는 위치에서 화면을 탭하여 Anchor를 생성하고, 해당 Anchor에 모델이 렌더링.    
 
 <br>
-
-![demo5](https://github.com/STPhotoZone/photoZone/assets/63052097/8f94d069-d966-46b0-9642-4b47bb0c716f)
-<img src-"https://github.com/STPhotoZone/photoZone/assets/63052097/c14bfc85-7dc4-49f9-9346-3a87e1e3c7ac" width=400 />
+      
+![demo5](/demo5.gif)        
+<img src="https://github.com/STPhotoZone/photoZone/assets/63052097/fc69a6af-1d3a-4ab4-adc2-e29023e700e6" width=400 />
+<img src="https://github.com/STPhotoZone/photoZone/assets/63052097/c14bfc85-7dc4-49f9-9346-3a87e1e3c7ac" width=400 />
 
 3. Camera 기능 : 사진 촬영 후 Preview 이미지를 보고 갤러리에 저장.     
 
