@@ -9,4 +9,8 @@
     <string name="Ahyu_name">아휴</string>
     <string name="Ahyu_description">미래관에서 아휴와 사진 한장!</string>
     <string name="ClientId">131838687922-d83i9gvg9bb9pba6mp44vj8on4qs8hso.apps.googleusercontent.com</string>
+    <string-array name="spinner_items">
+        <item>테크</item>
+        <item>아휴</item>
+    </string-array>
 </resources>
